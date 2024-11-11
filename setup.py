@@ -12,7 +12,7 @@ setup(
     long_description_content_type='text/markdown',
     url="https://github.com/ghering90/classic_infra_ibm_cloud",
     classifiers=[
-        'Programming Language :: Pytohn :: 3',
+        'Programming Language :: Python :: 3',
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',    
     ],
