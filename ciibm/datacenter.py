@@ -18,17 +18,13 @@ def GET_BACKEND_ROUTER(datacenter_id, pod_number, client):
     routers = client['SoftLayer_Location_Datacenter'].getBackendHardwareRouters(id=datacenter_id)
     return routers[pod_number - 1]["id"]
 
-def ORDER_VLAN(dc_location_id, backend_router, name, client, private=True):
-    if private == True:
-        package_id = 571
-        vlan_id = 1072
-        vlan_price_id = 27270
-        vlan_description = "PRIVATE_NETWORK_VLAN"
-    else:
-        package_id = 571
-        vlan_id = 1071
-        vlan_price_id = 29247
-        vlan_description = "PUBLIC_NETWORK_VLAN"
+def PRIVATE_ORDER_VLAN(dc_location_id, backend_router, name, client):
+
+    package_id = 571
+    vlan_id = 1072
+    vlan_price_id = 27270
+    vlan_description = "PRIVATE_NETWORK_VLAN"
+
 
     vlan_order = {
         'complexType': 'SoftLayer_Container_Product_Order_Network_Vlan',
@@ -52,7 +48,37 @@ def ORDER_VLAN(dc_location_id, backend_router, name, client, private=True):
     # this will verify the order
     result = client['SoftLayer_Product_Order'].verifyOrder(vlan_order)
     final = client['SoftLayer_Product_Order'].placeOrder(vlan_order)
-    vs_vlan_id_real = final['placeOrder']['items'][0]['id']
+    return final
+
+def PUBLIC_ORDER_VLAN(dc_location_id, backend_router, name, client):
+
+    package_id = 571
+    vlan_id = 1071
+    vlan_price_id = 29247
+    vlan_description = "PUBLIC_NETWORK_VLAN"
+
+    vlan_order = {
+        'complexType': 'SoftLayer_Container_Product_Order_Network_Vlan',
+        'quantity': 1,
+        'location': dc_location_id,
+        'packageId': package_id,
+        'prices': [
+            {
+                'id': vlan_price_id,
+                'item':{
+                    'id': vlan_id,
+                    'keyName': vlan_description
+                }
+            }
+        ],
+        'name': name,
+        'routerId': backend_router
+    }
+
+    #///////////////////////
+    # this will verify the order
+    result = client['SoftLayer_Product_Order'].verifyOrder(vlan_order)
+    final = client['SoftLayer_Product_Order'].placeOrder(vlan_order)
     return final
 
 def GET_VLAN_ID(vlan_name, client):
