@@ -78,8 +78,7 @@ def PUBLIC_ORDER_VLAN(dc_location_id, backend_router, name, client):
     #///////////////////////
     # this will verify the order
     result = client['SoftLayer_Product_Order'].verifyOrder(vlan_order)
-    final = client['SoftLayer_Product_Order'].placeOrder(vlan_order)
-    return final
+    return client['SoftLayer_Product_Order'].placeOrder(vlan_order)
 
 def GET_VLAN_ID(vlan_name, client):
     object_filter = {

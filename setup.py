@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='ciibm',
-    version='0.1.2',
+    version='0.1.3',
     packages=find_packages(),
     install=['SoftLayer','requests','time','json'],
     author="ghering90",
