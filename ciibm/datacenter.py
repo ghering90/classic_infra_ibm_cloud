@@ -246,3 +246,7 @@ def ASSOCIATE_AND_ROUTE_THROUGH_VLAN(gateway_id, vlan_id, client):
     template.append(object)
     result_vlan_route = client['SoftLayer_Network_Gateway_Vlan'].createObjects(template)
     return result_vlan_route
+
+def GET_SUBNETS(vlan_id, client):
+    subnet_object_mask = "mask[subnets]"
+    return client['SoftLayer_Network_Vlan'].getObject(id=vlan_id, mask=subnet_object_mask)
